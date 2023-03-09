@@ -1,5 +1,14 @@
 # JARVIS
+[![Powered by Wechaty/Puppet XP](https://img.shields.io/badge/Powered%20By-Wechaty-brightgreen.svg)](https://github.com/wechaty/puppet-xp)
+[![Powered by EdgeGPT](https://img.shields.io/badge/Powered%20By-EdgeGPT-brightgreen.svg)](https://github.com/wechaty/wechaty)
+[![Powered by OpenAI](https://img.shields.io/badge/Powered%20By-OpenAI-brightgreen.svg)](https://github.com/openai)
+[![GitHub stars](https://img.shields.io/github/stars/BenZhiGroup/JARVIS.svg?label=github%20stars)](https://github.com/BenZhiGroup/JARVIS)
+[![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/)
+
+# Aim
+
 Aim to become a Iron Man's JARVIS.🚀🚀
+
 # How It works
 This project depends on [Wechaty/Puppet XP](https://github.com/wechaty/puppet-xp) and [EdgeGPT](https://github.com/acheong08/EdgeGPT) and [OpenAI Python API](https://platform.openai.com/).
 
