@@ -1,0 +1,8 @@
+{
+  "server": "ws://xx.xx.xx.xx:5555",
+  "mysql_host": "xx.xx.xx.xx",
+  "mysql_port": 3306,
+  "mysql_user": "xxx",
+  "mysql_pass": "xxxx",
+  "openai_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+}
