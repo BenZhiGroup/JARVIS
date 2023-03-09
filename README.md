@@ -9,7 +9,7 @@
 
 Aim to become a Iron Man's JARVIS.🚀🚀
 
-# How It works
+# How It Works
 This project depends on [Wechaty/Puppet XP](https://github.com/wechaty/puppet-xp) and [EdgeGPT](https://github.com/acheong08/EdgeGPT) and [OpenAI Python API](https://platform.openai.com/).
 
 
@@ -32,6 +32,6 @@ Then run the `main.py`.
 
 # Work In Progress
 * Work with [Homeassistant](https://github.com/home-assistant).
-* Send mp3 file with ttl.
+* Send mp3 file with tts.
 * Connect with Midjourney
 * Send video file with D-ID.
