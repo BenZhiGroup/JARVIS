@@ -23,3 +23,15 @@ cp cookies-template.json cookies.json
 ```
 
 Then run the `main.py`.
+
+# Function
+* Ask Chat GPT.
+* Ask Bing Chat.
+* Print file.
+* Create picture with prompt.
+
+# Work In Progress
+* Work with [Homeassistant](https://github.com/home-assistant).
+* Send mp3 file with ttl.
+* Connect with Midjourney
+* Send video file with D-ID.
