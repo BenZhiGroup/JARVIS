@@ -4,5 +4,6 @@
   "mysql_port": 3306,
   "mysql_user": "xxx",
   "mysql_pass": "xxxx",
-  "openai_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxx"
+  "openai_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "my_wxid": "xxxxxxx"
 }
