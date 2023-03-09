@@ -34,7 +34,7 @@ NICK_DICK = {}
 config = {}
 printed_file = []
 
-with open('config.json', encoding='utf-8') as f:
+with open('../config.json', encoding='utf-8') as f:
     config = json.load(f)
 
 openai.api_key = config['openai_key']
@@ -337,7 +337,7 @@ def openai_ask(ask, wxid, askid):
 async def bing_ask(ask, wxid, askid):
     try:
         logging.info(wxid + ' 向 Bing 发出提问：' + ask)
-        bot = Chatbot(cookiePath='./cookies.json')
+        bot = Chatbot(cookiePath='../cookies.json')
         data = await bot.ask(prompt=ask)
         response = data["item"]["messages"][1]['text'].replace('^', '')
         response = response.replace('你好，这是必应。', '')
