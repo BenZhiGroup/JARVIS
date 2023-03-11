@@ -418,12 +418,12 @@ def homepod_tts_play(wxid, ask):
 
 def homepod_tts_gpt_ask(wxid, ask):
     chats = get_recent_chat(wxid)
-    ask = ask + ' 请用50字以内回答'
+    new_ask = ask + ' 请用50字以内回答。'
     reversed_chats = []
     for item in chats:
         reversed_chats.insert(0, {'role': 'user', 'content': item['ask']})
         reversed_chats.insert(1, {'role': 'assistant', 'content': item['response']})
-    reversed_chats.append({"role": "user", "content": ask})
+    reversed_chats.append({"role": "user", "content": new_ask})
     try:
         logging.info(wxid + ' 向 OpenAI 发出提问：' + json.dumps(reversed_chats))
         data = openai.ChatCompletion.create(
