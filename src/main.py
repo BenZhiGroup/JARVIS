@@ -400,9 +400,8 @@ def homepod_tts_ask(wxid, ask):
     j = json.loads(request_body)
     j['message'] = ask
     url = config['ha-url'] + '/services/tts/google_translate_say'
-    headers = {"Authorization": config['ha-token']}
-    response = post(url, headers=headers, json=j)
-    logging.info('请求ha接口返回内容：' + json.dumps(j) + '\n请求ha接口返回内容：' + response)
+    headers = {"Authorization": 'Bearer ' + config['ha-token']}
+    post(url, headers=headers, json=j)
     send_fail_message(wxid, '', '办公室的 Homepod 播放成功')
 
 
