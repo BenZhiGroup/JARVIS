@@ -418,7 +418,7 @@ def homepod_tts_play(wxid, ask):
 
 def homepod_tts_gpt_ask(wxid, ask):
     chats = get_recent_chat(wxid)
-    ask = ask + ' 请用100个字以内回答。'
+    ask = ask + ' 请用50字以内回答'
     reversed_chats = []
     for item in chats:
         reversed_chats.insert(0, {'role': 'user', 'content': item['ask']})
