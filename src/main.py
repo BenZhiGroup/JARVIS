@@ -429,7 +429,7 @@ def homepod_tts_gpt_ask(wxid, ask):
         )
         response = data['choices'][0]['message']['content'].lstrip().strip()
         logging.info('收到 ' + wxid + ' 提问的 OpenAI 的回复' + response)
-        homepod_tts_play(wxid, ask)
+        homepod_tts_play(wxid, response)
     except OpenAIError as openai_error:
         send_fail_message(wxid, '', '出错了，请联系彦祖。错误信息：' + openai_error)
 
