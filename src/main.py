@@ -209,6 +209,10 @@ def handle_recv_msg(j):
     if content.startswith('#homepod') or content.startswith('#Homepod') and len(askid) == 0:
         ask_type = 4
         content = content.replace('#homepod', '').lstrip().strip()
+    if content.startswith('#homepodask') or content.startswith('#Homepodask') or content.startswith('#Homepod ask') \
+            or content.startswith('#homepod ask') and len(askid) == 0:
+        ask_type = 5
+        content = content.replace('#homepod', '').lstrip().strip()
     if len(content) < 5 and ask_type != 4:
         send_fail_message(wxid, askid, '问题内容太短')
     m = wxid.find('@chatroom')
@@ -226,7 +230,11 @@ def handle_recv_msg(j):
         my_thread = threading.Thread(target=pic_ask, args=arg)
         my_thread.start()
     elif ask_type == 4:
-        homepod_tts_ask(wxid, content)
+        homepod_tts_play(wxid, content)
+    elif ask_type == 5:
+        arg = (wxid, content)
+        my_thread = threading.Thread(target=homepod_tts_gpt_ask, args=arg)
+        my_thread.start()
     else:
         arg = (content, wxid, askid)
         my_thread = threading.Thread(target=openai_ask, args=arg)
@@ -395,7 +403,7 @@ def pic_ask(ask, wxid, askid):
         send_fail_message(wxid, askid, 'OpenAI 生成图片服务报错了，请5分钟后重试。若连续三次不可用请联系彦祖。')
 
 
-def homepod_tts_ask(wxid, ask):
+def homepod_tts_play(wxid, ask):
     request_body = '{"entity_id":"media_player.gong_zuo_shi","language":"zh-CN"}'
     j = json.loads(request_body)
     j['message'] = ask
@@ -403,6 +411,27 @@ def homepod_tts_ask(wxid, ask):
     headers = {"Authorization": 'Bearer ' + config['ha-token']}
     post(url, headers=headers, json=j)
     send_fail_message(wxid, '', '办公室的 Homepod 播放成功')
+
+
+def homepod_tts_gpt_ask(wxid, ask):
+    chats = get_recent_chat(wxid)
+    ask = ask + ' 请用100个字以内回答。'
+    reversed_chats = []
+    for item in chats:
+        reversed_chats.insert(0, {'role': 'user', 'content': item['ask']})
+        reversed_chats.insert(1, {'role': 'assistant', 'content': item['response']})
+    reversed_chats.append({"role": "user", "content": ask})
+    try:
+        logging.info(wxid + ' 向 OpenAI 发出提问：' + json.dumps(reversed_chats))
+        data = openai.ChatCompletion.create(
+            model='gpt-3.5-turbo',
+            messages=reversed_chats
+        )
+        response = data['choices'][0]['message']['content'].lstrip().strip()
+        logging.info('收到 ' + wxid + ' 提问的 OpenAI 的回复' + response)
+        homepod_tts_play(wxid, ask)
+    except OpenAIError as openai_error:
+        send_fail_message(wxid, '', '出错了，请联系彦祖。错误信息：' + openai_error)
 
 
 def send_fail_message(wxid, askid, error_str):
