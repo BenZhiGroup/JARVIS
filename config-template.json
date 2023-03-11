@@ -5,5 +5,7 @@
   "mysql_user": "xxx",
   "mysql_pass": "xxxx",
   "openai_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  "my_wxid": "xxxxxxx"
+  "my_wxid": "xxxxxxx",
+  "ha-token": "xxxxx",
+  "ha-url": "http://xxx.xxx:8123/api"
 }
