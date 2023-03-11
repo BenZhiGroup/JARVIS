@@ -206,9 +206,6 @@ def handle_recv_msg(j):
         ask_type = 3
         indx1 = content.find('图片') + 2
         content = content[indx1:].lstrip().strip()
-    if content.startswith('#homepod') or content.startswith('#Homepod') and len(askid) == 0:
-        ask_type = 4
-        content = content.replace('#homepod', '').lstrip().strip()
     if content.startswith('#homepodask') or content.startswith('#Homepodask') or content.startswith('#Homepod ask') \
             or content.startswith('#homepod ask') and len(askid) == 0:
         ask_type = 5
@@ -216,6 +213,9 @@ def handle_recv_msg(j):
         content = content.replace('#Homepodask', '').lstrip().strip()
         content = content.replace('#Homepod ask', '').lstrip().strip()
         content = content.replace('#homepod ask', '').lstrip().strip()
+    if content.startswith('#homepod') or content.startswith('#Homepod') and len(askid) == 0:
+        ask_type = 4
+        content = content.replace('#homepod', '').lstrip().strip()
     if len(content) < 5 and ask_type != 4:
         send_fail_message(wxid, askid, '问题内容太短')
     m = wxid.find('@chatroom')
