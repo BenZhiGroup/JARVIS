@@ -64,7 +64,7 @@ app = Flask(__name__)
 def say_morning():
     wxid = request.json['wxid']
     climate = get_climate()
-    send_fail_message(wxid, '', climate + '\n本质科技祝您拥有美好的一天！')
+    send_fail_message(wxid, '', climate + '\n\n本质科技祝您拥有美好的一天！')
     return jsonify({'result': 'ok'})
 
 
