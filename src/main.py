@@ -191,7 +191,7 @@ def send_pic_msg(location, wxid):
 
 
 def on_open(ws):
-    ws.send(send_wxuser_list())
+    # ws.send(send_wxuser_list())
     check_live_thread = threading.Thread(target=check_mysql_live)
     check_live_thread.start()
     web_thread = threading.Thread(target=start_web)
@@ -335,6 +335,7 @@ def handle_wxuser_list(j):
             j_ary.remove(item)
     print(j_ary)
 
+
 def handle_nothing(j):
     print('')
 
@@ -468,12 +469,12 @@ def get_climate():
     temp = str(content_result['temperature_08h_20h'][0]['min']) + '°C 至 ' + \
            str(content_result['temperature_08h_20h'][0]['max']) + '°C，'
     # 主要天气表现
-    main_cli = climate[content_result['skycon_08h_20h'][0]['value']]
+    main_cli = climate.climate_desc[content_result['skycon_08h_20h'][0]['value']]
     # 生活指数
     life_index = '，穿衣指数为 ' + content_result['life_index']['dressing'][0]['desc'] + '，'
     life_index1 = '舒适指数为 ' + content_result['life_index']['comfort'][0]['desc'] + '，'
     life_index2 = '紫外线指数为 ' + content_result['life_index']['ultraviolet'][0]['desc'] + '。'
-    desc = '今天气温为 ' + temp + main_cli + '。空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
+    desc = '今天白天 ' + main_cli + '，气温' + temp + '。空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
     return desc
 
 

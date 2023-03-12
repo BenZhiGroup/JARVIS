@@ -1,4 +1,4 @@
-climate = {
+climate_desc = {
     "CLEAR_DAY": "晴",
     "CLEAR_NIGHT": "晴",
     "PARTLY_CLOUDY_DAY": "多云",
