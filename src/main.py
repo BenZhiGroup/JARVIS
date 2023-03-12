@@ -467,7 +467,7 @@ def get_climate():
     temp = str(content_result['temperature_08h_20h'][0]['min']) + '°C 至 ' + \
            str(content_result['temperature_08h_20h'][0]['max']) + '°C。'
     # 生活指数
-    life_index = '穿衣指数为 ' + content_result['life_index']['dressing'][0]['desc'] + '，'
+    life_index = '，穿衣指数为 ' + content_result['life_index']['dressing'][0]['desc'] + '，'
     life_index1 = '舒适指数为 ' + content_result['life_index']['comfort'][0]['desc'] + '，'
     life_index2 = '紫外线指数为 ' + content_result['life_index']['ultraviolet'][0]['desc'] + '。'
     desc = '今天气温为 ' + temp + '空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
