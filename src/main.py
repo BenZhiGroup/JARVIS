@@ -467,7 +467,7 @@ def get_climate():
     aqi = content_result['air_quality']['aqi'][0]['avg']['chn']
     # 气温
     temp = str(content_result['temperature_08h_20h'][0]['min']) + '°C 至 ' + \
-           str(content_result['temperature_08h_20h'][0]['max']) + '°C，'
+           str(content_result['temperature_08h_20h'][0]['max']) + '°C'
     # 主要天气表现
     main_cli = climate.climate_desc[content_result['skycon_08h_20h'][0]['value']]
     # 生活指数
