@@ -15,6 +15,7 @@ import subprocess
 import xml.etree.ElementTree as ET
 from requests import post, get
 from flask import Flask, request, jsonify
+import climate
 
 
 HEART_BEAT = 5005
@@ -465,12 +466,14 @@ def get_climate():
     aqi = content_result['air_quality']['aqi'][0]['avg']['chn']
     # 气温
     temp = str(content_result['temperature_08h_20h'][0]['min']) + '°C 至 ' + \
-           str(content_result['temperature_08h_20h'][0]['max']) + '°C。'
+           str(content_result['temperature_08h_20h'][0]['max']) + '°C，'
+    # 主要天气表现
+    main_cli = climate[content_result['skycon_08h_20h'][0]['value']]
     # 生活指数
     life_index = '，穿衣指数为 ' + content_result['life_index']['dressing'][0]['desc'] + '，'
     life_index1 = '舒适指数为 ' + content_result['life_index']['comfort'][0]['desc'] + '，'
     life_index2 = '紫外线指数为 ' + content_result['life_index']['ultraviolet'][0]['desc'] + '。'
-    desc = '今天气温为 ' + temp + '空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
+    desc = '今天气温为 ' + temp + main_cli + '。空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
     return desc
 
 
