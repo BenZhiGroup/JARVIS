@@ -7,5 +7,6 @@
   "openai_key": "xxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "my_wxid": "xxxxxxx",
   "ha-token": "xxxxx",
-  "ha-url": "http://xxx.xxx:8123/api"
+  "ha-url": "http://xxx.xxx:8123/api",
+  "caiyun_key": "xxxxxx"
 }

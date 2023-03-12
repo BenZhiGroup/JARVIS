@@ -13,7 +13,8 @@ import urllib.request
 import datetime
 import subprocess
 import xml.etree.ElementTree as ET
-from requests import post
+from requests import post, get
+from flask import Flask, request, jsonify
 
 
 HEART_BEAT = 5005
@@ -36,7 +37,7 @@ NICK_DICK = {}
 config = {}
 printed_file = []
 
-with open('../config.json', encoding='utf-8') as f:
+with open('./config.json', encoding='utf-8') as f:
     config = json.load(f)
 
 openai.api_key = config['openai_key']
@@ -54,6 +55,16 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
+
+app = Flask(__name__)
+
+
+@app.route('/api/morning', methods=['POST'])
+def say_morning():
+    wxid = request.json['wxid']
+    climate = get_climate()
+    send_fail_message(wxid, '', climate + '\n本质科技祝您拥有美好的一天！')
+    return jsonify({'result': 'ok'})
 
 
 def check_mysql_live():
@@ -179,8 +190,11 @@ def send_pic_msg(location, wxid):
 
 
 def on_open(ws):
+    ws.send(send_wxuser_list())
     check_live_thread = threading.Thread(target=check_mysql_live)
     check_live_thread.start()
+    web_thread = threading.Thread(target=start_web)
+    web_thread.start()
     logging.info('启动了')
 
 
@@ -318,7 +332,7 @@ def handle_wxuser_list(j):
         id = item['wxid']
         if id.startswith("gh_"):
             j_ary.remove(item)
-
+    print(j_ary)
 
 def handle_nothing(j):
     print('')
@@ -444,6 +458,22 @@ def send_fail_message(wxid, askid, error_str):
         ws.send(send_txt_msg(error_str, wxid))
 
 
+def get_climate():
+    response = get('https://api.caiyunapp.com/v2.6/' + config['caiyun_key'] + '/112.56,37.79/daily?dailysteps=1')
+    content_result = json.loads(response.text)['result']['daily']
+    # 空气质量指数
+    aqi = content_result['air_quality']['aqi'][0]['avg']['chn']
+    # 气温
+    temp = str(content_result['temperature_08h_20h'][0]['min']) + '°C 至 ' + \
+           str(content_result['temperature_08h_20h'][0]['max']) + '°C。'
+    # 生活指数
+    life_index = '穿衣指数为 ' + content_result['life_index']['dressing'][0]['desc'] + '，'
+    life_index1 = '舒适指数为 ' + content_result['life_index']['comfort'][0]['desc'] + '，'
+    life_index2 = '紫外线指数为 ' + content_result['life_index']['ultraviolet'][0]['desc'] + '。'
+    desc = '今天气温为 ' + temp + '空气质量指数为 ' + str(aqi) + life_index + life_index1 + life_index2
+    return desc
+
+
 def on_message(ws, message):
     j = json.loads(message)
     resp_type = j['type']
@@ -475,6 +505,10 @@ def on_close(ws):
     logging.info('closed')
 
 
+def start_web():
+    app.run(host='0.0.0.0', port=8125)
+
+
 websocket.enableTrace(True)
 ws = websocket.WebSocketApp(config['server'],
                             on_open=on_open,
@@ -482,3 +516,4 @@ ws = websocket.WebSocketApp(config['server'],
                             on_error=on_error,
                             on_close=on_close)
 ws.run_forever()
+
